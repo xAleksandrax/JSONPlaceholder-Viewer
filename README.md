@@ -4,3 +4,4 @@ The application also has its own API that enables setting the number of displaye
 
 The application was created as a group project by a team of three and provides an easy way to browse data provided by an external API.
  
+(unfinished)
