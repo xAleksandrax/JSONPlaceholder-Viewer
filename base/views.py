@@ -18,7 +18,7 @@ def get_posts(request):
 def get_comments(request):
     response = requests.get('https://jsonplaceholder.typicode.com/comments')
     comments = response.json()
-    return render(request, 'comments.html', {'comments': comments})
+    return render(request, 'posts.html', {'comments': comments})
 
 def get_albums(request):
     response = requests.get('https://jsonplaceholder.typicode.com/albums')
@@ -30,15 +30,44 @@ def get_photos(request):
     photos = response.json()
     return render(request, 'photos.html', {'photos': photos})
 
-def get_todos(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/todos')
-    todos = response.json()
-    return render(request, 'todos.html', {'todos': todos})
-
 def get_users(request):
     response = requests.get('https://jsonplaceholder.typicode.com/users')
     users = response.json()
     return render(request, 'users.html', {'users': users})
+
+import requests
+
+def get_posts_with_comments_and_users(request):
+    # get posts
+    posts_response = requests.get('https://jsonplaceholder.typicode.com/posts')
+    posts = posts_response.json()
+
+    # get comments
+    comments_response = requests.get('https://jsonplaceholder.typicode.com/comments')
+    comments = comments_response.json()
+
+    # get users
+    users_response = requests.get('https://jsonplaceholder.typicode.com/users')
+    users = users_response.json()
+
+    # create a dictionary to store the users by id
+    users_dict = {user['id']: user for user in users}
+
+    # create a dictionary to store the comments by post id
+    comments_dict = {}
+    for comment in comments:
+        post_id = comment['postId']
+        if post_id not in comments_dict:
+            comments_dict[post_id] = []
+        comments_dict[post_id].append(comment)
+
+    # add the comments and user info to each post
+    for post in posts:
+        post['comments'] = comments_dict.get(post['id'], [])
+        post['user'] = users_dict.get(post['userId'], {})
+
+    return render(request, 'posts.html', {'posts': posts})
+
 
 class Login(LoginView):
     template_name = 'login.html'

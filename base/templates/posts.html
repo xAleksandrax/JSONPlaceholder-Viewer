@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class = "header">
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}">Wyloguj</a>
-    {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a>
-    {% endif %}
-</div>
-
-    <h1>Posts</h1>
-    <ul>
-        {% for post in posts %}
-            <li>{{ post.title }}</li>
-        {% endfor %}
-    </ul>
+  {% for post in posts %}
+    <div class="post">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.body }}</p>
+      <div class="post-details">
+        <p>Author: {{ post.user.name }}</p>
+        <p>Email: {{ post.user.email }}</p>
+      </div>
+      <h3>Comments</h3>
+      {% for comment in post.comments %}
+        <div class="comment">
+          <p>{{ comment.body }}</p>
+          <p>By: {{ comment.name }}</p>
+          <p>Email: {{ comment.email }}</p>
+        </div>
+      {% empty %}
+        <p>No comments yet.</p>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <p>No posts yet.</p>
+  {% endfor %}
 {% endblock %}
