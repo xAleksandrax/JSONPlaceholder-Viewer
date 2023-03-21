@@ -1,18 +1,45 @@
 import requests
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.list import ListView
 from django import forms
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
+from .models import Project
 
-def posts(request):
+def get_posts(request):
     response = requests.get('https://jsonplaceholder.typicode.com/posts')
     posts = response.json()
     return render(request, 'posts.html', {'posts': posts})
-    
+
+def get_comments(request):
+    response = requests.get('https://jsonplaceholder.typicode.com/comments')
+    comments = response.json()
+    return render(request, 'comments.html', {'comments': comments})
+
+def get_albums(request):
+    response = requests.get('https://jsonplaceholder.typicode.com/albums')
+    albums = response.json()
+    return render(request, 'albums.html', {'albums': albums})
+
+def get_photos(request):
+    response = requests.get('https://jsonplaceholder.typicode.com/photos')
+    photos = response.json()
+    return render(request, 'photos.html', {'photos': photos})
+
+def get_todos(request):
+    response = requests.get('https://jsonplaceholder.typicode.com/todos')
+    todos = response.json()
+    return render(request, 'todos.html', {'todos': todos})
+
+def get_users(request):
+    response = requests.get('https://jsonplaceholder.typicode.com/users')
+    users = response.json()
+    return render(request, 'users.html', {'users': users})
+
 class Login(LoginView):
     template_name = 'login.html'
     fields = '__all__'
@@ -24,7 +51,7 @@ class Login(LoginView):
     }
 
     def get_success_url(self):
-        return reverse_lazy('reminders')
+        return reverse_lazy('posts')
 
 class Register(FormView):
     template_name = 'register.html'
@@ -40,5 +67,5 @@ class Register(FormView):
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect('reminders')
+            return redirect('posts')
         return super(Register, self).get(*args, **kwargs)
