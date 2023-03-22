@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import get_posts, get_comments, Login, Register, LogoutView, get_posts_with_comments_and_users
+from .views import Login, Register, LogoutView, get_posts_with_comments_and_users
 
 urlpatterns = [
     path('', get_posts_with_comments_and_users, name='posts'),

@@ -12,16 +12,6 @@ from .models import Project
 from django.contrib.auth.decorators import login_required
 
 
-def get_posts(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/posts')
-    posts = response.json()
-    return render(request, 'posts.html', {'posts': posts})
-
-def get_comments(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/comments')
-    comments = response.json()
-    return render(request, 'posts.html', {'comments': comments})
-
 def get_albums(request):
     response = requests.get('https://jsonplaceholder.typicode.com/albums')
     albums = response.json()
@@ -32,12 +22,10 @@ def get_photos(request):
     photos = response.json()
     return render(request, 'photos.html', {'photos': photos})
 
-def get_users(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/users')
-    users = response.json()
-    return render(request, 'users.html', {'users': users})
-
-import requests
+# def get_users(request):
+#     response = requests.get('https://jsonplaceholder.typicode.com/users')
+#     users = response.json()
+#     return render(request, 'users.html', {'users': users})
 
 @login_required(login_url = 'login')
 def get_posts_with_comments_and_users(request):
@@ -70,7 +58,6 @@ def get_posts_with_comments_and_users(request):
         post['user'] = users_dict.get(post['userId'], {})
 
     return render(request, 'posts.html', {'posts': posts})
-
 
 class Login(LoginView):
     template_name = 'login.html'
