@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -13,8 +14,8 @@
             <!-- menu nawigacyjne -->
             <style>
                 :root {
-                --main-color: rgb(117, 95, 156);;
-                --bg-color: rgb(247, 243, 239);
+                --main-color: rgb(138, 190, 117);;
+                --bg-color: rgb(216, 219, 214);
                 --hover-color: rgb(118, 109, 101);
                 --text-area-color: rgb(249, 243, 234);
                 }
@@ -27,16 +28,68 @@
 
                 .header {
                     display: flex;
-                    padding: 15px;
                     border-radius: 20px;
                     background-color: var(--main-color);
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .login {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .login i {
+                    margin-left: auto;
+                    margin-right: 15px;
                 }
 
                 a{
-                    color: black;
+                    color: #fff;
                     text-decoration: none;
                 }
-                
+
+                h3{
+                    margin-left: 10px;
+                    color: #fff;
+                    font-size: 25px;
+                    font-family: 'Fugaz One', cursive;
+                    
+                }
+
+                .container {
+                   
+                    max-width: 550px;
+                    height: auto;
+                    margin: auto;
+                    background-color: #fff;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border-radius: 20px;
+                    border: 3px solid rgba(255,255,255,0.10);
+                    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+                    margin-top: 10px;
+                }
+
+                .comment-section {
+                    display: none;
+                }
+
+                .show-comments {
+                    cursor: pointer;
+                    width: 100%;
+                    border-radius: 20px;
+                    border: none;
+                    height: 30px;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 15px;
+                }
+
+                .show-comments:hover{
+                    background-color: var(--main-color);
+                    color: #fff;
+                }
+
             </style>
         </nav>
     </header>

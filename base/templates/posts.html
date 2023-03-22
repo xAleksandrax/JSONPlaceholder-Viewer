@@ -1,37 +1,59 @@
-
-
 {% extends 'base.html' %}
-
 {% block content %}
 
+<script src="https://kit.fontawesome.com/a6a48ad58a.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- nagłówek, logowanie -->
+
 <div class = "header">
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}">Wyloguj</a>
-    {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a>
-    {% endif %}
+  <h3>Welcome back {{request.user}}!</h3>
+    <div class="login">
+      {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+      {% else %}
+          <a href="{% url 'login' %}">Zaloguj</a>
+      {% endif %}
+    </div>
 </div>
 
+<!-- filtrowanie -->
+
+
   {% for post in posts %}
+<!-- posty -->
     <div class="post">
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.body }}</p>
+  <div class="container">      
+      <h2>{{ post.title }}</h2>     
       <div class="post-details">
-        <p>Author: {{ post.user.name }}</p>
-        <p>Email: {{ post.user.email }}</p>
+        <p><i class="fa fa-user"></i> {{ post.user.name }}</p>
+        <p><i class="fa fa-envelope"></i> {{ post.user.email }}</p>
       </div>
-      <h3>Comments</h3>
-      {% for comment in post.comments %}
+      <p>{{ post.body }}</p>
+      <button class="show-comments">Comments</button>
+      <div class="comment-section">
+<!-- komentarze -->
+        {% for comment in post.comments %}
         <div class="comment">
-          <p>{{ comment.body }}</p>
-          <p>By: {{ comment.name }}</p>
-          <p>Email: {{ comment.email }}</p>
+          <p><i class="fa fa-envelope"></i> {{ comment.email }}</p>
+          <h4>{{ comment.name }}</h4>
+          <p>{{ comment.body }}</p>                 
         </div>
-      {% empty %}
+        {% empty %}
         <p>No comments yet.</p>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   {% empty %}
-    <p>No posts yet.</p>
+    <p>No posts yet.</p>   
   {% endfor %}
+
+  <script>
+  $(document).ready(function() {
+    $('.show-comments').click(function() {
+      $(this).next('.comment-section').slideToggle();
+    });
+  });
+  </script>
+
 {% endblock %}

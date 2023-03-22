@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
 from .models import Project
+from django.contrib.auth.decorators import login_required
+
 
 def get_posts(request):
     response = requests.get('https://jsonplaceholder.typicode.com/posts')
@@ -37,6 +39,7 @@ def get_users(request):
 
 import requests
 
+@login_required(login_url = 'login')
 def get_posts_with_comments_and_users(request):
     # get posts
     posts_response = requests.get('https://jsonplaceholder.typicode.com/posts')
