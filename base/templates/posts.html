@@ -17,18 +17,6 @@
     </div>
 </div>
 
-<!-- filtrowanie -->
-<div class="filters">
-  <label for="filter-select">Filtruj:</label>
-  <select id="filter-select">
-    <option value="">Wszystkie</option>
-    <option value="1">Krótkie posty (mniej niż 100 znaków)</option>
-    <option value="2">Średnie posty (od 100 do 200 znaków)</option>
-    <option value="3">Długie posty (więcej niż 200 znaków)</option>
-  </select>
-  <button id="filter-btn">Filtruj</button>
-  <button id="clear-btn">Usuń filtr</button>  
-</div>
 
 <div class="posts-container">
   {% for post in posts %}
