@@ -3,11 +3,11 @@
 
 <script src="https://kit.fontawesome.com/a6a48ad58a.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 <!-- nagłówek, logowanie -->
 
 <div class = "header">
-  <h3>Welcome back {{request.user}}!</h3>
+  <h3>Welcome back {{request.user}}!</h3>   
     <div class="login">
       {% if request.user.is_authenticated %}
           <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
@@ -16,7 +16,6 @@
       {% endif %}
     </div>
 </div>
-
 
 <div class="posts-container">
   {% for post in posts %}
@@ -48,6 +47,7 @@
   {% endfor %}
 </div>
 
+
   <script>
   $(document).ready(function() {
     $('.show-comments').click(function() {
@@ -55,5 +55,16 @@
     });
   });
   </script>
+
+<div class="menu">
+  <ul>
+    <li><a href="{% url 'posts' %}"><span class="material-symbols-outlined">
+      home
+      </span></a></li>
+    <li><a href="{% url 'albums' %}"><span class="material-symbols-outlined">
+      photo_library
+      </span></a></li>
+  </ul>
+</div>
 
 {% endblock %}

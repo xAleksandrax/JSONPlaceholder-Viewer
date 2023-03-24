@@ -84,13 +84,114 @@
                     font-size: 15px;
                 }
 
+                .show-albums {
+                    cursor: pointer;
+                    width: 100%;
+                    border-radius: 20px;
+                    border: none;
+                    height: 30px;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 15px;
+                    margin-top: 8px;
+                }
+
                 .show-comments:hover{
                     background-color: var(--main-color);
                     color: #fff;
                 }
 
-                .filters{
-                    margin-top: 10px;
+                .show-albums:hover{
+                    background-color: var(--main-color);
+                    color: #fff;
+                }
+
+                .album-container {
+                    margin-top: 20px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    justify-content: center;
+                }
+
+                .album-button {
+                    width: 200px;
+                    height: 200px;
+                    background-color: #ebebeb;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
+
+                .album-user{
+                    font-size: 16px;
+                    font-weight: bold;
+                    text-align: center;
+                }
+
+                .h5{
+                    font-size: 14px;
+                }
+
+                .album-button:hover {
+                    background-color: var(--main-color);
+                    color: #fff;
+                }
+
+                .album-photos {
+                    display: none;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    justify-content: center;
+                }
+
+                .album-photos img {
+                    width: 200px;
+                    height: 200px;
+                    object-fit: cover;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: opacity 0.3s ease;
+                }
+
+                .album-photos img:hover {
+                    opacity: 0.8;
+                }
+
+                .album-photos.show {
+                    display: flex;
+                }
+
+                .menu {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    background-color: var(--main-color);
+                    overflow: hidden;
+                }
+
+                .menu ul {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+
+                .menu li {
+                    float: left;
+                }
+
+                .menu li a {
+                    display: block;
+                    color: #fff;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
+
+                .menu li a:hover {
+                    background-color: #fff;
+                    color: var(--main-color);
                 }
 
             </style>

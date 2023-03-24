@@ -12,21 +12,6 @@ from .models import Project
 from django.contrib.auth.decorators import login_required
 
 
-def get_albums(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/albums')
-    albums = response.json()
-    return render(request, 'albums.html', {'albums': albums})
-
-def get_photos(request):
-    response = requests.get('https://jsonplaceholder.typicode.com/photos')
-    photos = response.json()
-    return render(request, 'photos.html', {'photos': photos})
-
-# def get_users(request):
-#     response = requests.get('https://jsonplaceholder.typicode.com/users')
-#     users = response.json()
-#     return render(request, 'users.html', {'users': users})
-
 @login_required(login_url = 'login')
 def get_posts_with_comments_and_users(request):
     # get posts
@@ -58,6 +43,37 @@ def get_posts_with_comments_and_users(request):
         post['user'] = users_dict.get(post['userId'], {})
 
     return render(request, 'posts.html', {'posts': posts})
+
+def get_user_albums(request):
+    # get albums
+    albums_response = requests.get('https://jsonplaceholder.typicode.com/albums')
+    albums = albums_response.json()
+
+    # get photos
+    photos_response = requests.get('https://jsonplaceholder.typicode.com/photos')
+    photos = photos_response.json()
+
+    # get users
+    users_response = requests.get('https://jsonplaceholder.typicode.com/users')
+    users = users_response.json()
+
+    # create a dictionary to store the users by id
+    users_dict = {user['id']: user for user in users}
+
+    # create a dictionary to store the photos by album id
+    photos_dict = {}
+    for photo in photos:
+        album_id = photo['albumId']
+        if album_id not in photos_dict:
+            photos_dict[album_id] = []
+        photos_dict[album_id].append(photo)
+
+    # add the photos and user info to each album
+    for album in albums:
+        album['photos'] = photos_dict.get(album['id'], [])
+        album['user'] = users_dict.get(album['userId'], {})
+
+    return render(request, 'user_albums.html', {'albums': albums})
 
 class Login(LoginView):
     template_name = 'login.html'

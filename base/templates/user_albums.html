@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<script src="https://kit.fontawesome.com/a6a48ad58a.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+<!-- nagłówek, logowanie -->
+
+<div class = "header">
+  <h3>Welcome back {{request.user}}!</h3>
+    <div class="login">
+      {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+      {% else %}
+          <a href="{% url 'login' %}">Zaloguj</a>
+      {% endif %}
+    </div>
+</div>
+
+<div class="album-container">
+    {% for album in albums %}
+      <button class="album-button" onclick="toggleAlbum(event)">
+        <i class="fas fa-user-circle"></i>
+        <span class="album-user">{{ album.user.name }}</span>
+        <p class="album-title">{{ album.title }}</p>
+      </button>
+      <div class="album-photos">
+        {% for photo in album.photos %}
+          <img src="{{ photo.thumbnailUrl }}" alt="{{ photo.title }}">
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    function toggleAlbum(event) {
+      const button = event.currentTarget;
+      const photos = button.nextElementSibling;
+      photos.classList.toggle('show');
+    }
+  </script>
+  
+  <div class="menu">
+    <ul>
+      <li><a href="{% url 'posts' %}"><span class="material-symbols-outlined">
+        home
+        </span></a></li>
+      <li><a href="{% url 'albums' %}"><span class="material-symbols-outlined">
+        photo_library
+        </span></a></li>
+    </ul>
+  </div>
+
+{% endblock %}
