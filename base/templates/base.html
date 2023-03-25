@@ -168,7 +168,7 @@
                     left: 0;
                     width: 100%;
                     background-color: var(--main-color);
-                    overflow: hidden;
+                    z-index: 1;
                 }
 
                 .menu ul {
@@ -192,8 +192,32 @@
                 .menu li a:hover {
                     background-color: #fff;
                     color: var(--main-color);
+                } 
+
+                .filter-container {
+                    position: relative;
                 }
 
+                .filter-posts {
+                    display: none;
+                    position: absolute;
+                    bottom: 40px;
+                    left: 0;
+                    background-color: white;
+                    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+                    padding: 10px;
+                    width: 200px;
+                    z-index: 1;
+                }
+
+                .filter-posts li {
+                    cursor: pointer;
+                    padding: 5px;
+                }
+
+                .filter-posts li:hover {
+                    background-color: #f5f5f5;
+                }
             </style>
         </nav>
     </header>

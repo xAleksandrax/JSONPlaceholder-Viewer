@@ -4,7 +4,6 @@
 <script src="https://kit.fontawesome.com/a6a48ad58a.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-<!-- nagłówek, logowanie -->
 
 <div class = "header">
   <h3>Welcome back {{request.user}}!</h3>   
@@ -17,11 +16,34 @@
     </div>
 </div>
 
+<div class="menu">
+  <ul>
+    <li><a href="{% url 'posts' %}"><span class="material-symbols-outlined">
+      home
+      </span></a></li>
+    <li><a href="{% url 'albums' %}"><span class="material-symbols-outlined">
+      photo_library
+      </span></a></li>
+    <li>
+      <a href="#" class="filter-icon"><span class="material-symbols-outlined">
+        filter_alt
+        </span></a>
+      <ul class="filter-posts">
+        <li data-value="200">Short posts</li>
+        <li data-value="220">Medium posts</li>
+        <li data-value="280">Long posts</li>
+      </ul>
+    </li>
+    <li><a href="#" class="reset-filters"><span class="material-symbols-outlined">
+      clear_all
+      </span></a></li>
+  </ul>
+</div>
+
 <div class="posts-container">
   {% for post in posts %}
-<!-- posty -->
-    <div class="post">
-  <div class="container">      
+  <div class="post" data-body-length="{{ post.body|length }}">
+    <div class="container">      
       <h2>{{ post.title }}</h2>     
       <div class="post-details">
         <p><i class="fa fa-user"></i> {{ post.user.name }}</p>
@@ -41,30 +63,55 @@
         <p>No comments yet.</p>
         {% endfor %}
       </div>
-    </div>
+  </div>
   {% empty %}
     <p>No posts yet.</p>   
   {% endfor %}
 </div>
 
-
-  <script>
+<script>
   $(document).ready(function() {
+    // funkcja wyświetlająca lub ukrywająca listę opcji
+    $('.filter-icon').click(function() {
+      $('.filter-posts').slideToggle();
+    });
+  
+    // funkcja zamykająca listę po wybraniu opcji
+    $('.filter-posts li').click(function() {
+      var value = $(this).data('value');
+      $('.filter-posts').slideUp();
+      // wywołanie funkcji filtrowania dla wybranej wartości
+      filterPosts(value);
+    });
+  
+    // funkcja filtrowania postów po długości
+    function filterPosts(length) {
+      let maxLength = parseInt(length);
+      if (maxLength) {
+        $('.post').each(function() {
+          let postLength = parseInt($(this).data('body-length'));
+          if (postLength >= maxLength) {
+            $(this).hide();
+          } else {
+            $(this).show();
+          }
+        });
+      } else {
+        $('.post').show();
+      }
+    }
+  
+    // funkcja pokazująca/ukrywająca sekcję komentarzy
     $('.show-comments').click(function() {
       $(this).next('.comment-section').slideToggle();
     });
+  
+    // funkcja resetująca filtry
+    $('.reset-filters').click(function() {
+      $('.post').show();
+    });
+  
   });
   </script>
-
-<div class="menu">
-  <ul>
-    <li><a href="{% url 'posts' %}"><span class="material-symbols-outlined">
-      home
-      </span></a></li>
-    <li><a href="{% url 'albums' %}"><span class="material-symbols-outlined">
-      photo_library
-      </span></a></li>
-  </ul>
-</div>
-
+  
 {% endblock %}
