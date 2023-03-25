@@ -1,17 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>Logowanie</h1>
-
-<form method="POST" autocomplete="off">
-    {% csrf_token %}
-    <label>Nazwa użytkownika</label>
-    {{form.username}}
-    <label>Hasło</label>
-    {{form.password}}
-    <input class="btn1" type="submit" value="Zaloguj się">
-</form>
-
-<div class="underline">
-    <p>Nie masz jeszcze konta? <a href="{% url 'register' %}">Załóż konto</a></p>
-</div>
+<body class="login_base">  
+    <div class="login_container">
+      <h1>Welcome back</h1>  
+      <div class="welcome_image">
+        <img class="logo" src="{% static 'images/female_profile.svg' %}">
+      </div>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div>
+                <label>Username</label>
+                {{form.username}}
+            </div>
+            <div>
+                <label>Password</label>
+                {{form.password}}
+            </div>
+            <div>
+                <input class="btn1" type="submit" value="Zaloguj się">
+            </div>
+        </form>
+        <div class="underline">
+            <p>Nie masz jeszcze konta? <a href="{% url 'register' %}">Załóż konto</a></p>
+        </div>  
+    </div>     
+</body>
 {% endblock content %}

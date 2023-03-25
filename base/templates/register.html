@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>Rejestracja</h1>
-
-<form method="POST">
-    {% csrf_token %}
-    <label>Nazwa użytkownika</label>
-    {{form.username}}
-    <label>Hasło</label>
-    {{form.password1}}
-    <label>Potwierdź hasło</label>
-    {{form.password2}}
-    <input class="btn2" type="submit" value="Zakładam konto">
-</form>
-
-<div class="underline">
-    <p>Mam już konto <a href="{% url 'login' %}">Zaloguj się</a></p>
-</div>
+<body class="register_base">  
+    <div class="login_container">
+      <h1>Welcome</h1>  
+      <div class="welcome_image">
+        <img class="logo" src="{% static 'images/male_profile.svg' %}">
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <label>Username</label>
+        {{form.username}}
+        <label>Password</label>
+        {{form.password1}}
+        <label>Confirm password</label>
+        {{form.password2}}
+        <input class="btn2" type="submit" value="Zakładam konto">
+    </form>
+        <div class="underline">
+            <p>Mam już konto <a href="{% url 'login' %}">Zaloguj się</a></p>
+        </div> 
+    </div>     
+</body>
 {% endblock content %}
