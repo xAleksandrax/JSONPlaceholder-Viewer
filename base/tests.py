@@ -10,15 +10,18 @@ class TestLoginView(TestCase):
         response = Client().post(reverse('login'), {'username': 'testuser', 'password': 'testpass'})
         self.assertRedirects(response, reverse('posts'))
 
-# class TestPostsView(TestCase):
-#     def setUp(self):
-#         self.client = Client()
-#         self.url = reverse('posts')
+class TestPostsView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass'
+        )
 
-#     def test_get_posts_with_comments_and_users(self):
-#         response = self.client.get(self.url)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'posts.html')
+    def test_get_posts_with_comments_and_users(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('posts'))
+        self.assertEqual(response.status_code, 200)
 
 class TestRegisterView(TestCase):
     def setUp(self):
