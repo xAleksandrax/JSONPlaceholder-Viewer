@@ -44,6 +44,7 @@ def get_posts_with_comments_and_users(request):
 
     return render(request, 'posts.html', {'posts': posts})
 
+@login_required(login_url = 'login')
 def get_user_albums(request):
     # get albums
     albums_response = requests.get('https://jsonplaceholder.typicode.com/albums')
