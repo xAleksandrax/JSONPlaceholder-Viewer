@@ -20,13 +20,13 @@ class TestLoginView(TestCase):
 #         self.assertEqual(response.status_code, 200)
 #         self.assertTemplateUsed(response, 'posts.html')
 
-# class TestRegisterView(TestCase):
-#     def setUp(self):
-#         self.client = Client()
-#         self.url = reverse('register')
-#         self.username = 'testuser'
-#         self.password = 'testpass'
+class TestRegisterView(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('register')
+        self.username = 'testuser'
+        self.password = 'testpass123'
 
-#     def test_register(self):
-#         response = self.client.post(self.url, {'username': self.username, 'password1': self.password, 'password2': self.password})
-#         self.assertRedirects(response, reverse('posts'))
+    def test_register(self):
+        response = self.client.post(self.url, {'username': self.username, 'password1': self.password, 'password2': self.password})
+        self.assertRedirects(response, reverse('posts'))
