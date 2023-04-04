@@ -30,18 +30,25 @@ class TestPostsView(TestCase):
             password='testpass'
         )
 
-    def test_get_posts_with_comments_and_users(self):
+    def test_get_posts_with_comments_and_users_authenticated(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('posts'))
         self.assertEqual(response.status_code, 200)
+
+    def test_get_posts_with_comments_and_users_unauthenticated(self):
+        response = self.client.get(reverse('posts'))
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('posts')}")
+        # reverse generuje adres url jeśli taki jest przypisany w urls.py
 
     def test_get_user_albums_authenticated(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('albums'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user_albums.html')
+        # sprawdza czy używany jest poprawny szablon
 
     def test_get_user_albums_unauthenticated(self):
         response = self.client.get(reverse('albums'))
-        self.assertRedirects(response, f"{reverse('login')}?next={reverse('albums')}")
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('albums')}") 
+        # sprawdza czy następuje przekierowanie na dobry URL
 
