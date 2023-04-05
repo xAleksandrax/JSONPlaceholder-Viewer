@@ -34,11 +34,20 @@ class TestPostsViews(TestCase):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('posts'))
         self.assertEqual(response.status_code, 200)
+    
+    def test_get_posts_with_comments_and_users_authenticated_with_limit(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('posts', args=[4]))
+        self.assertEqual(response.status_code, 200)
 
     def test_get_posts_with_comments_and_users_unauthenticated(self):
         response = self.client.get(reverse('posts'))
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('posts')}")
         # reverse generuje adres url jeśli taki jest przypisany w urls.py
+
+    def test_get_posts_with_comments_and_users_unauthenticated_with_limit(self):
+        response = self.client.get(reverse('posts', args=[4]))
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('posts', args=[4])}")
 
     def test_get_user_albums_authenticated(self):
         self.client.login(username='testuser', password='testpass')
@@ -51,4 +60,14 @@ class TestPostsViews(TestCase):
         response = self.client.get(reverse('albums'))
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('albums')}") 
         # sprawdza czy następuje przekierowanie na dobry URL
+
+    def test_get_comments_for_post_authenticated(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('comments', args=[4]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+
+    def test_get_comments_for_post_unauthenticated(self):
+        response = self.client.get(reverse('comments', args=[4]))
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments', args=[4])}")
 

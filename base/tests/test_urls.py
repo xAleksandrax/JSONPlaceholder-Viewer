@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from base.views import get_posts_with_comments_and_users, get_user_albums, Login, LogoutView, Register
+from base.views import get_posts_with_comments_and_users, get_user_albums,get_comments_for_post, Login, LogoutView, Register
 
 class TestUrls(SimpleTestCase):
     # SimpleTestCase używamy kiedy nie ma interakcji z bazą
@@ -12,6 +12,11 @@ class TestUrls(SimpleTestCase):
         url = reverse('posts', args=[5])
         print(resolve(url))
         self.assertEquals(resolve(url).func, get_posts_with_comments_and_users)
+
+    def test_comments_limit_url(self):
+        url = reverse('comments', args=[5])
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, get_comments_for_post)
 
     def test_albums_url(self):
         url = reverse('albums')
