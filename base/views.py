@@ -59,6 +59,21 @@ def get_comments_for_post(request, post_id):
 
     return render(request, 'comments.html', {'comments': comments})
 
+@require_http_methods(["GET"])
+@login_required(login_url='login')
+def get_comments_by_postid(request):
+    comment_id = request.GET.get('postId')
+    comments_url = 'https://jsonplaceholder.typicode.com/comments'
+
+    if comment_id is not None:
+        comments_url += f'?postId={comment_id}'
+
+    comments_response = requests.get(comments_url)
+    comments = comments_response.json()
+
+    return render(request, 'comments.html', {'comments': comments})
+
+
 
 @login_required(login_url = 'login')
 def get_user_albums(request, limit=None):
