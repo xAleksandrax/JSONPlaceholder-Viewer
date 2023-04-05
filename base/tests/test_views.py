@@ -71,3 +71,24 @@ class TestPostsViews(TestCase):
         response = self.client.get(reverse('comments', args=[4]))
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments', args=[4])}")
 
+    def test_get_comments_by_postid_authenticated(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('comments'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+
+    def test_get_comments_by_postid_unauthenticated(self):
+        response = self.client.get(reverse('comments'))
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments')}")
+
+    def test_get_comments_by_postid_authenticated_postid_added(self):
+        self.client.login(username='testuser', password='testpass')
+        response = self.client.get(reverse('comments'), {'postId': 1})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+
+    def test_get_comments_by_postid_unauthenticated_postid_added(self):
+        response = self.client.get(reverse('comments'), {'postId': 1})
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments')}%3FpostId%3D1")
+        # kod szesnastkowy aby uniknąć błędów
+

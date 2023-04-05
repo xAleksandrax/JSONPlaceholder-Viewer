@@ -74,7 +74,6 @@ def get_comments_by_postid(request):
     return render(request, 'comments.html', {'comments': comments})
 
 
-
 @login_required(login_url = 'login')
 def get_user_albums(request, limit=None):
     # get albums
