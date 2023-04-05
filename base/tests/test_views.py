@@ -57,7 +57,7 @@ class TestPostsViews(TestCase):
         mock_posts_response = [{'id': 1, 'title': 'Test post', 'userId': 1}]
         mock_comments_response = [{'id': 1, 'postId': 1, 'body': 'Test comment', 'email': 'test@example.com'}]
         mock_users_response = [{'id': 1, 'name': 'Test user'}]
-        
+
         mock_responses = [
             Mock(status_code=200, json = Mock(return_value = mock_posts_response)),
             Mock(status_code=200, json = Mock(return_value = mock_comments_response)),
@@ -116,13 +116,13 @@ class TestPostsViews(TestCase):
         self.assertTemplateUsed(response, 'user_albums.html')
         self.assertEqual(response.context['albums'], mock_albums_response)
 
-    def test_get_comments_for_post_authenticated(self):
+    def test_get_comments_for_post_authenticated_with_args(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('comments', args=[4]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'comments.html')
 
-    def test_get_comments_for_post_unauthenticated(self):
+    def test_get_comments_for_post_unauthenticated_with_args(self):
         response = self.client.get(reverse('comments', args=[4]))
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments', args=[4])}")
 
@@ -146,4 +146,47 @@ class TestPostsViews(TestCase):
         response = self.client.get(reverse('comments'), {'postId': 1})
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('comments')}%3FpostId%3D1")
         # kod szesnastkowy aby uniknąć błędów
+
+    @patch('requests.get')
+    def test_mock_get_comments_for_post_authenticated(self, mock_get):
+        self.client.login(username='testuser', password='testpass')
+        mock_comments_response = [{'id': 1, 'postId': 1, 'body': 'Test comment', 'email': 'test@example.com'}]
+
+        mock_response = Mock(status_code=200, json=Mock(return_value=mock_comments_response))
+
+        mock_get.return_value = mock_response
+
+        response = self.client.get(reverse('comments'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+        self.assertEqual(response.context['comments'], mock_comments_response)
+
+    @patch('requests.get')
+    def test_mock_get_comments_for_post_authenticated_with_args(self, mock_get):
+        self.client.login(username='testuser', password='testpass')
+        mock_comments_response = [{'id': 1, 'postId': 1, 'body': 'Test comment', 'email': 'test@example.com'}]
+
+        mock_response = Mock(status_code=200, json=Mock(return_value=mock_comments_response))
+
+        mock_get.return_value = mock_response
+
+        response = self.client.get(reverse('comments', args=[4]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+        self.assertEqual(response.context['comments'], mock_comments_response)
+
+    @patch('requests.get')
+    def test_mock_get_comments_by_postid_authenticated_postid_added(self, mock_get):
+        self.client.login(username='testuser', password='testpass')
+        mock_comments_response = [{'id': 1, 'postId': 1, 'body': 'Test comment', 'email': 'test@example.com'}]
+
+        mock_response = Mock(status_code=200, json=Mock(return_value=mock_comments_response))
+
+        mock_get.return_value = mock_response
+
+        response = self.client.get(reverse('comments'), {'postId': 1})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'comments.html')
+        self.assertEqual(response.context['comments'], mock_comments_response)
+
 
