@@ -8,6 +8,11 @@ class TestUrls(SimpleTestCase):
         url = reverse('posts')
         self.assertEquals(resolve(url).func, get_posts_with_comments_and_users)
 
+    def test_posts_limit_url(self):
+        url = reverse('posts', args=[5])
+        print(resolve(url))
+        self.assertEquals(resolve(url).func, get_posts_with_comments_and_users)
+
     def test_albums_url(self):
         url = reverse('albums')
         self.assertEquals(resolve(url).func, get_user_albums)

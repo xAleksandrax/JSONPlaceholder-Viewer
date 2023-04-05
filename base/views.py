@@ -1,21 +1,25 @@
 import requests
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.list import ListView
 from django import forms
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
-from .models import Project
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 
-
-@login_required(login_url = 'login')
-def get_posts_with_comments_and_users(request):
+@require_http_methods(["GET"])
+@login_required(login_url='login')
+def get_posts_with_comments_and_users(request, limit=None):
     # get posts
-    posts_response = requests.get('https://jsonplaceholder.typicode.com/posts')
+    posts_url = 'https://jsonplaceholder.typicode.com/posts'
+
+    if limit is not None:
+        posts_url += f'?_limit={limit}'
+
+    posts_response = requests.get(posts_url)
     posts = posts_response.json()
 
     # get comments
@@ -44,8 +48,20 @@ def get_posts_with_comments_and_users(request):
 
     return render(request, 'posts.html', {'posts': posts})
 
+
+@require_http_methods(["GET"])
+@login_required(login_url='login')
+def get_comments_for_post(request, post_id):
+    # get comments for the specified post id
+    comments_url = f'https://jsonplaceholder.typicode.com/comments?postId={post_id}'
+    comments_response = requests.get(comments_url)
+    comments = comments_response.json()
+
+    return render(request, 'comments.html', {'comments': comments})
+
+
 @login_required(login_url = 'login')
-def get_user_albums(request):
+def get_user_albums(request, limit=None):
     # get albums
     albums_response = requests.get('https://jsonplaceholder.typicode.com/albums')
     albums = albums_response.json()
@@ -88,6 +104,7 @@ class Login(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('posts')
+    
 
 class Register(FormView):
     template_name = 'register.html'
