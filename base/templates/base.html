@@ -39,6 +39,7 @@
                     text-decoration: none;
                     margin-right: 20px;
                 }
+                
 
                 h3{
                     margin-left: 10px;
@@ -226,6 +227,7 @@
                     justify-content: center;
                     align-items: center;
                     background-color: #f5f5f5;
+                    text-align: center;
                 }
 
                 .register_base {
@@ -233,17 +235,20 @@
                     justify-content: center;
                     align-items: center;
                     background-color: #f5f5f5;
+                    text-align: center;
                 }
 
                 .login_container {
-                    width: 400px;
+                    max-width: 50%;
+                    margin: auto;
+                    text-align: center;
                     background-color: #fff;
-                    border-radius: 10px;
+                    border-radius: 15px;
                     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
                     justify-content: center;
                     align-items: center;
                     padding: 10px;
-                    margin-top: 40%;
+                    flex-direction: column;
                 }
 
                 .login_container h1 {
@@ -256,26 +261,29 @@
                 .login_container form {
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
                 }
 
                 .login_container label {
                     font-size: 1.1rem;
                     color: #555;
                     margin-bottom: 3px;
+                    flex-direction: column;
                 }
 
                 .login_container input[type="text"],
                 .login_container input[type="password"] {
-                    width: 80%;
+                    flex-direction: column;
+                    width: 90%;
                     padding: 10px;
                     margin-bottom: 20px;
                     border: none;
                     border-radius: 5px;
                     background-color: #e0dede;
                     color: #333;
-                    font-size: 1.2rem;
+                    font-size: 1.1rem;
                     font-family: 'robotic';
+                    justify-content: center;
+                    overflow: hidden;
                 }
 
                 .underline {

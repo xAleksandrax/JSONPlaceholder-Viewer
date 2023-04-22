@@ -9,12 +9,7 @@
       </div>
       <form method="POST">
         {% csrf_token %}
-        <label>Username</label>
-        {{form.username}}
-        <label>Password</label>
-        {{form.password1}}
-        <label>Confirm password</label>
-        {{form.password2}}
+        {{form.as_p}}
         <input class="btn2" type="submit" value="Zakładam konto">
     </form>
         <div class="underline">
