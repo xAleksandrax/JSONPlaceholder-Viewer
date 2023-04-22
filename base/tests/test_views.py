@@ -21,8 +21,26 @@ class TestRegisterView(TestCase):
         self.password = 'testpass123'
 
     def test_register(self):
-        response = self.client.post(self.url, {'username': self.username, 'password1': self.password, 'password2': self.password})
+        response = self.client.post(
+            self.url, {'username': self.username, 'password1': self.password, 'password2': self.password})
         self.assertRedirects(response, reverse('posts'))
+
+    def test_allows_unauthenticated_users(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_redirects_authenticated_users(self):
+        # create a user and log them in
+        user = self.create_user()
+        self.client.force_login(user)
+
+        # call the register view and assert it redirects to the posts view
+        response = self.client.get(self.url)
+        self.assertRedirects(response, reverse('posts'))
+
+    def create_user(self):
+        return User.objects.create_user(
+            username='testuser', password='testpass123')
         
 class TestPostsViews(TestCase):
     def setUp(self):
