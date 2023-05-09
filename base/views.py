@@ -9,6 +9,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
+
 
 @require_http_methods(["GET"])
 @login_required(login_url='login')
@@ -74,8 +76,8 @@ def get_comments_by_postid(request):
     return render(request, 'comments.html', {'comments': comments})
 
 
-@login_required(login_url = 'login')
-def get_user_albums(request, limit=None):
+@login_required(login_url='login')
+def get_user_albums(request):
     # get albums
     albums_response = requests.get('https://jsonplaceholder.typicode.com/albums')
     albums = albums_response.json()
@@ -104,7 +106,13 @@ def get_user_albums(request, limit=None):
         album['photos'] = photos_dict.get(album['id'], [])
         album['user'] = users_dict.get(album['userId'], {})
 
+    # paginate the albums
+    paginator = Paginator(albums, 15)
+    page = request.GET.get('page')
+    albums = paginator.get_page(page)
+
     return render(request, 'user_albums.html', {'albums': albums})
+
 
 class Login(LoginView):
     template_name = 'login.html'

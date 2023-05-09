@@ -18,19 +18,23 @@
 </div>
 
 <div class="album-container">
-    {% for album in albums %}
-      <button class="album-button" onclick="toggleAlbum(event)">
-        <i class="fas fa-user-circle"></i>
-        <span class="album-user">{{ album.user.name }}</span>
-        <p class="album-title">{{ album.title }}</p>
-      </button>
-      <div class="album-photos">
-        {% for photo in album.photos %}
-          <img src="{{ photo.thumbnailUrl }}" alt="{{ photo.title }}">
-        {% endfor %}
-      </div>
-    {% endfor %}
-  </div>
+  {% for album in albums|slice:":15" %}
+    <button class="album-button" onclick="toggleAlbum(event)">
+      <i class="fas fa-user-circle"></i>
+      <span class="album-user">{{ album.user.name }}</span>
+      <p class="album-title">{{ album.title }}</p>
+    </button>
+    <div class="album-photos">
+      {% for photo in album.photos %}
+        <img src="{{ photo.thumbnailUrl }}" alt="{{ photo.title }}">
+      {% endfor %}
+    </div>
+  {% endfor %}
+  {% if albums.has_next %}
+    <button class="load-more-button" data-next-page="{{ albums.next_page_number }}" data-per-page="{{ albums.paginator.per_page }}">More Albums</button>
+  {% endif %}
+</div>
+
 
   <script>
     function toggleAlbum(event) {
@@ -38,6 +42,19 @@
       const photos = button.nextElementSibling;
       photos.classList.toggle('show');
     }
+
+    $('.load-more-button').click(function() {
+      const button = $(this);
+      const nextPage = button.data('next-page');
+      const perPage = button.data('per-page');
+      const url = `{% url 'albums' %}?page=${nextPage}&limit=${perPage}`;
+      $.get(url, function(data) {
+        const container = $('.album-container');
+        const albumsHtml = $(data).find('.album-container').html();
+        container.append(albumsHtml);
+        button.remove();
+      });
+    });
   </script>
   
   <div class="menu">

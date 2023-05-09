@@ -39,7 +39,7 @@
                     text-decoration: none;
                     margin-right: 20px;
                 }
-                
+
 
                 h3{
                     margin-left: 10px;
@@ -48,7 +48,7 @@
                     font-family: 'Fugaz One', cursive;
                 }
 
-                .container {                 
+                .container {
                     max-width: 550px;
                     height: auto;
                     margin: auto;
@@ -75,7 +75,7 @@
                     font-size: 15px;
                 }
 
-                .show-albums {
+                .show-albums, .load-more-button {
                     cursor: pointer;
                     width: 100%;
                     border-radius: 20px;
@@ -87,6 +87,11 @@
                 }
 
                 .show-comments:hover{
+                    background-color: var(--main-color);
+                    color: #fff;
+                }
+
+                .load-more-button:hover{
                     background-color: var(--main-color);
                     color: #fff;
                 }
@@ -183,7 +188,7 @@
                 .menu li a:hover {
                     background-color: #fff;
                     color: var(--main-color);
-                } 
+                }
 
                 .filter-container {
                     position: relative;
@@ -239,8 +244,11 @@
                 }
 
                 .login_container {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                     max-width: 50%;
-                    margin: auto;
                     text-align: center;
                     background-color: #fff;
                     border-radius: 15px;
