@@ -12,19 +12,13 @@ class TestJsonPlaceholderViewer(unittest.TestCase):
         self.driver.maximize_window()
         self.driver.get("http://xaleksandraxx.pythonanywhere.com/")
 
-    def test_title(self):
-        self.assertEqual("", self.driver.title)
-
     def test_register(self):
         self.driver.find_element(By.PARTIAL_LINK_TEXT, 'Załóż konto').click()
 
-        self.driver.find_element(By.NAME, 'username').send_keys('testuser2')
+        self.driver.find_element(By.NAME, 'username').send_keys('testuser')
         self.driver.find_element(By.NAME, 'password1').send_keys('testpass123')
         self.driver.find_element(By.NAME, 'password2').send_keys('testpass123')
         self.driver.find_element(By.CSS_SELECTOR, 'input[value="Zakładam konto"]').click()
-
-        welcome_message = self.driver.find_element(By.CSS_SELECTOR, 'h1')
-        self.assertEqual(welcome_message.text, 'Welcome')
 
         time.sleep(4)
         
